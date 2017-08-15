@@ -1,10 +1,12 @@
 from flask import Flask, redirect, render_template
 from flask_script import Manager
+from flask_bootstrap import Bootstrap
 
 # Tell Flask where to look the 'working files'
 app = Flask(__name__)
 # Provides CLI properties when debugging the webapp
 manager = Manager(app)
+bootstrap = Bootstrap(app)
 
 # This tells flask what to run once a get request is
 # sent to the server. In this case, it is the 'main'
