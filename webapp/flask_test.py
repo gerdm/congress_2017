@@ -1,7 +1,7 @@
 from flask import Flask, redirect, render_template, flash
 from flask_script import Manager
 from flask_bootstrap import Bootstrap
-from flask_wtf import FlaskForm, Form
+from flask_wtf import FlaskForm
 from wtforms import StringField, SelectField, SubmitField
 from wtforms.validators import Required
 from flask_sqlalchemy import SQLAlchemy
@@ -22,9 +22,7 @@ manager = Manager(app)
 bootstrap = Bootstrap(app)
 db = SQLAlchemy(app)
 
-
-######### Database Definition #########
-class MembersForm(Form):
+class MembersForm(FlaskForm):
     first_name = StringField("First Name", validators=[Required()])
     last_name = StringField("Last name", validators=[Required()])
     workshop = SelectField("Worksop",
