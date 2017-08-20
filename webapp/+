@@ -1,8 +1,8 @@
 from flask import Flask, redirect, render_template, flash
 from flask_script import Manager
 from flask_bootstrap import Bootstrap
-from flask_wtf import FlaskForm, Form
-from wtforms import StringField, SelectField, SubmitField
+from flask_wtf import FlaskForm
+from wtforms import StringField, DateField, SubmitField
 from wtforms.validators import Required
 from flask_sqlalchemy import SQLAlchemy
 from os.path import abspath, dirname, join
@@ -15,23 +15,19 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = "1F9HClu5BiUu5MT6xvAf"
 app.config["SQLALCHEMY_DATABASE_URI"] = dbase_path
 app.config["SQLALCHEMY_COMMIT_ON_TEARDOWN"] = True
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 # Provides CLI properties when debugging the webapp
 manager = Manager(app)
 bootstrap = Bootstrap(app)
 db = SQLAlchemy(app)
 
-
 ######### Database Definition #########
-class MembersForm(Form):
+class Members(FlaskForm):
     first_name = StringField("First Name", validators=[Required()])
     last_name = StringField("Last name", validators=[Required()])
-    workshop = SelectField("Worksop",
-                           choices=[("conf1", "Conference 1"),  ("conf2", "Conference 2"), ("conf3", "Conference 3")])
     secret_code = StringField("Secret Code", validators=[Required()])
+    birthday = DateField("Birthday", validators=[Required()])
     submit = SubmitField("Submit")
-
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -39,7 +35,7 @@ def page_not_found(e):
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-    form = MembersForm()
+    form = NameForm()
     if form.validate_on_submit():
         first_name = form.first_name.data
         form.first_name.data = ""
