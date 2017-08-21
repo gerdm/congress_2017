@@ -25,8 +25,10 @@ db = SQLAlchemy(app)
 class MembersForm(FlaskForm):
     first_name = StringField("First Name", validators=[Required()])
     last_name = StringField("Last name", validators=[Required()])
-    workshop = SelectField("Worksop",
-                           choices=[("conf1", "Conference 1"),  ("conf2", "Conference 2"), ("conf3", "Conference 3")])
+    grade = SelectField("Student Grade",
+                        choices=[("g1", "Grade 1"), ("g2", "Grade 2")])
+    # Dinamyc creation of the form: setting the data afterwards
+    workshop = SelectField("Worksop", coerce=str)
     secret_code = StringField("Secret Code", validators=[Required()])
     submit = SubmitField("Submit")
 
@@ -37,11 +39,18 @@ def page_not_found(e):
 
 @app.route("/", methods=["GET", "POST"])
 def index():
+    choicesv1 = [("ch1", "Choice 1"), ("ch2", "Choice 2")]
+    choicesv2 = [("ch3", "Choice 3"), ("ch4", "Choice 4")]
     form = MembersForm()
+    # TODO: Add workshop choices depending on the
+    # grade submitted by the user; check if the 
+    # workshop is available dependin on the number of people involved
+    form.workshop.choices = choicesv1
     if form.validate_on_submit():
         first_name = form.first_name.data
         form.first_name.data = ""
         form.last_name.data = ""
+        form.grade.data = ""
         flash("Thank you for signing in {}!".format(first_name))
     return render_template("index.html", form=form)
 
