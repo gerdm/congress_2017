@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template, flash
+from flask import Flask, redirect, render_template, flash, url_for, session
 from flask_script import Manager, Shell
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
@@ -30,11 +30,11 @@ class User(db.Model):
     last_name = db.Column(db.String(64), unique=False)
     school = db.Column(db.String(64), unique=False)
     kit = db.Column(db.Boolean, unique=False)
-    grade = db.Column(db.Integer, db.ForeignKey("school_grades.grade"))
-    beverage = db.Column(db.Integer, db.ForeignKey("beverages.beverage"))
-    user_type = db.Column(db.Integer, db.ForeignKey("user_types.type"))
-    workshop = db.Column(db.Integer, db.ForeignKey("workshops.workshop"))
-    round_table = db.Column(db.Integer, db.ForeignKey("round_tables.table"))
+    grade_id = db.Column(db.Integer, db.ForeignKey("school_grades.id"))
+    beverage_id = db.Column(db.Integer, db.ForeignKey("beverages.id"))
+    user_type_id= db.Column(db.Integer, db.ForeignKey("user_types.id"))
+    workshop_id = db.Column(db.Integer, db.ForeignKey("workshops.id"))
+    round_table_id = db.Column(db.Integer, db.ForeignKey("round_tables.id"))
 
     def __repr__(self):
         return ("<User {first} {last}>"
@@ -44,8 +44,8 @@ class User(db.Model):
 class Grade(db.Model):
     __tablename__ = "school_grades"
     id = db.Column(db.Integer, primary_key=True)
-    grade = db.Column(db.String(64), unique=True)
-    users = db.relationship("User", backref="role", lazy="dynamic")
+    name = db.Column(db.String(64), unique=True)
+    users = db.relationship("User", backref="grade", lazy="dynamic")
 
     def __repr__(self):
         return "<School Grade {grade}>".format(grade=self.grade)
@@ -55,7 +55,7 @@ class User_Type(db.Model):
     __tablename__ = "user_types"
     id = db.Column(db.Integer, primary_key=True)
     type = db.Column(db.String(64), unique=True)
-    users = db.relationship("User", backref="role", lazy="dynamic")
+    users = db.relationship("User", backref="user_type", lazy="dynamic")
 
     def __repr__(self):
         return "<User Type {utype}>".format(utype=self.user_type)
@@ -65,7 +65,7 @@ class Beverage(db.Model):
     __tablename__ = "beverages"
     id = db.Column(db.Integer, primary_key=True)
     beverage = db.Column(db.String(64), unique=True)
-    users = db.relationship("User", backref="role", lazy="dynamic")
+    users = db.relationship("User", backref="beverage", lazy="dynamic")
 
     def __repr__(self):
         return "<Beverage {beverage}>".format(beverage=self.beverage)
@@ -75,7 +75,7 @@ class Workshop(db.Model):
     __tablename__ ="workshops"
     id = db.Column(db.Integer, primary_key=True)
     workshop = db.Column(db.String(64), unique=True)
-    users = db.relationship("User", backref="role", lazy="dynamic")
+    users = db.relationship("User", backref="workshop", lazy="dynamic")
 
     def __repr__(self):
         return "<Workshop {ws}>".format(ws=self.workshop)
@@ -94,7 +94,7 @@ class Round_Table(db.Model):
 def make_shell_context():
     return dict(app=app, User=User, Grade=Grade, User_Type=User_Type,
                 Beverage=Beverage, Workshop=Workshop, Round_Table=Round_Table)
-#manager.add_command("shell", Shell(make_context = make_shell_context))
+manager.add_command("shell", Shell(make_context = make_shell_context))
 
 
 class MembersForm(FlaskForm):
@@ -122,11 +122,9 @@ def index():
     # workshop is available dependin on the number of people involved
     form.workshop.choices = choicesv1
     if form.validate_on_submit():
-        first_name = form.first_name.data
-        form.first_name.data = ""
-        form.last_name.data = ""
-        form.grade.data = ""
-        flash("Thank you for signing in {}!".format(first_name))
+        session["first_name"] = form.first_name.data
+        flash("Thank you for signing in {}!".format(session.get("first_name")))
+        return redirect(url_for("index"))
     return render_template("index.html", form=form)
 
 @app.route("/user/<name>")
