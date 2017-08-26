@@ -75,6 +75,7 @@ class Workshop(db.Model):
     __tablename__ ="workshops"
     id = db.Column(db.Integer, primary_key=True)
     workshop = db.Column(db.String(64), unique=True)
+    grade_allowed = db.Column(db.Integer, db.ForeignKey("school_grades.id"))
     users = db.relationship("User", backref="workshop", lazy="dynamic")
 
     def __repr__(self):
@@ -104,6 +105,7 @@ class MembersForm(FlaskForm):
     # Dinamyc creation of the form for grade and workshop: setting the data afterwards
     grade = SelectField("Student Grade", coerce=str, id="select_grade")
     round_table = SelectField("Round table", coerce=str, id="select_table")
+    workshop = SelectField("Workshop", coerce=str, id="select_workshop")
     secret_code = StringField("Secret Code", validators=[Required()])
     submit = SubmitField("Submit")
 
@@ -116,11 +118,17 @@ def page_not_found(e):
 @app.route("/_get_tables/")
 def _get_tables():
     grade  = request.args.get("grade", 1, type=int)
-    print("grade", grade)
     tables = [(row.id, row.table) for row in
               Round_Table.query.filter_by(grade_allowed=grade).all()]
-    print("tables", tables)
     return jsonify(tables)
+
+@app.route("/_get_workshops/")
+def _get_workshops():
+    grade  = request.args.get("grade", 1, type=int)
+    workshops = [(row.id, row.workshop) for row in
+              Workshop.query.filter_by(grade_allowed=grade).all()]
+    print(workshops)
+    return jsonify(workshops)
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -130,6 +138,7 @@ def index():
     # workshop is available dependin on the number of people involved
     form.grade.choices = [(row.id, row.name) for row in Grade.query.all()]
     form.round_table.choices = [(row.id, row.table) for row in Round_Table.query.all()]
+    form.workshop.choices = [(row.id, row.workshop) for row in Workshop.query.all()]
     if form.validate_on_submit():
         session["first_name"] = form.first_name.data
         flash("Thank you for signing in {}!".format(session.get("first_name")))
