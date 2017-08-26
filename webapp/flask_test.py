@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template, flash, url_for, session
+from flask import Flask, redirect, render_template, flash, url_for, session, request, jsonify
 from flask_script import Manager, Shell
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
@@ -48,7 +48,7 @@ class Grade(db.Model):
     users = db.relationship("User", backref="grade", lazy="dynamic")
 
     def __repr__(self):
-        return "<School Grade {grade}>".format(grade=self.grade)
+        return "<School Grade {grade}>".format(grade=self.name)
 
 
 class User_Type(db.Model):
@@ -58,7 +58,7 @@ class User_Type(db.Model):
     users = db.relationship("User", backref="user_type", lazy="dynamic")
 
     def __repr__(self):
-        return "<User Type {utype}>".format(utype=self.user_type)
+        return "<User Type {utype}>".format(utype=self.type)
 
 
 class Beverage(db.Model):
@@ -85,10 +85,11 @@ class Round_Table(db.Model):
     __tablename__ = "round_tables"
     id = db.Column(db.Integer, primary_key=True)
     table = db.Column(db.String)
+    grade_allowed = db.Column(db.Integer, db.ForeignKey("school_grades.id"))
     users = db.relationship("User", backref="role", lazy="dynamic")
     
     def __repr__(self):
-        return "<Round Table {table}>".format(table=self.round_table)
+        return "<Round Table {table}>".format(table=self.table)
 
 # import the database instance and the models on the run
 def make_shell_context():
@@ -100,10 +101,9 @@ manager.add_command("shell", Shell(make_context = make_shell_context))
 class MembersForm(FlaskForm):
     first_name = StringField("First Name", validators=[Required()])
     last_name = StringField("Last name", validators=[Required()])
-    grade = SelectField("Student Grade",
-                        choices=[("g1", "Grade 1"), ("g2", "Grade 2")])
-    # Dinamyc creation of the form: setting the data afterwards
-    workshop = SelectField("Workshop", coerce=str)
+    # Dinamyc creation of the form for grade and workshop: setting the data afterwards
+    grade = SelectField("Student Grade", coerce=str, id="select_grade")
+    round_table = SelectField("Round table", coerce=str, id="select_table")
     secret_code = StringField("Secret Code", validators=[Required()])
     submit = SubmitField("Submit")
 
@@ -112,15 +112,24 @@ class MembersForm(FlaskForm):
 def page_not_found(e):
     return render_template("404.html"), 404
 
+# Retrieve data from user input
+@app.route("/_get_tables/")
+def _get_tables():
+    grade  = request.args.get("grade", 1, type=int)
+    print("grade", grade)
+    tables = [(row.id, row.table) for row in
+              Round_Table.query.filter_by(grade_allowed=grade).all()]
+    print("tables", tables)
+    return jsonify(tables)
+
 @app.route("/", methods=["GET", "POST"])
 def index():
-    choicesv1 = [("ch1", "Choice 1"), ("ch2", "Choice 2")]
-    choicesv2 = [("ch3", "Choice 3"), ("ch4", "Choice 4")]
     form = MembersForm()
     # TODO: Add workshop choices depending on the
     # grade submitted by the user; check if the 
     # workshop is available dependin on the number of people involved
-    form.workshop.choices = choicesv1
+    form.grade.choices = [(row.id, row.name) for row in Grade.query.all()]
+    form.round_table.choices = [(row.id, row.table) for row in Round_Table.query.all()]
     if form.validate_on_submit():
         session["first_name"] = form.first_name.data
         flash("Thank you for signing in {}!".format(session.get("first_name")))
