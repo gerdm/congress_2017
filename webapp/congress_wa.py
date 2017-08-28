@@ -28,6 +28,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(64), unique=False)
     last_name = db.Column(db.String(64), unique=False)
+    email = db.Column(db.String(64), unique=True)
     school = db.Column(db.String(64), unique=False)
     kit = db.Column(db.Boolean, unique=False)
     grade_id = db.Column(db.Integer, db.ForeignKey("school_grades.id"))
@@ -102,19 +103,18 @@ manager.add_command("shell", Shell(make_context = make_shell_context))
 class MembersForm(FlaskForm):
     first_name = StringField("First Name", validators=[Required()])
     last_name = StringField("Last name", validators=[Required()])
+    email = StringField("Email", validators=[Required()])
     # Dinamyc creation of the form for grade and workshop: setting the data afterwards
-    grade = SelectField("Student Grade", coerce=str, id="select_grade")
-    round_table = SelectField("Round table", coerce=str, id="select_table")
-    workshop = SelectField("Workshop", coerce=str, id="select_workshop")
+    grade = SelectField("Student Grade", coerce=int, id="select_grade")
+    round_table = SelectField("Round table", coerce=int, id="select_table")
+    workshop = SelectField("Workshop", coerce=int, id="select_workshop")
     secret_code = StringField("Secret Code", validators=[Required()])
     submit = SubmitField("Submit")
-
 
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template("404.html"), 404
 
-# Retrieve data from user input
 @app.route("/_get_tables/")
 def _get_tables():
     grade  = request.args.get("grade", 1, type=int)
@@ -127,15 +127,11 @@ def _get_workshops():
     grade  = request.args.get("grade", 1, type=int)
     workshops = [(row.id, row.workshop) for row in
               Workshop.query.filter_by(grade_allowed=grade).all()]
-    print(workshops)
     return jsonify(workshops)
 
 @app.route("/", methods=["GET", "POST"])
 def index():
     form = MembersForm()
-    # TODO: Add workshop choices depending on the
-    # grade submitted by the user; check if the 
-    # workshop is available dependin on the number of people involved
     form.grade.choices = [(row.id, row.name) for row in Grade.query.all()]
     form.round_table.choices = [(row.id, row.table) for row in Round_Table.query.all()]
     form.workshop.choices = [(row.id, row.workshop) for row in Workshop.query.all()]
