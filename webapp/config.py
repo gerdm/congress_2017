@@ -4,9 +4,9 @@ from os.path import abspath, dirname, join
 basedir = abspath(dirname(__file__))
 
 class Config:
-    "SECRET_KEY" = "1F9HClu5BiUu5MT6xvAf"
-    "SQLALCHEMY_COMMIT_ON_TEARDOWN" = True
-    "SQLALCHEMY_TRACK_MODIFICATIONS" = False
+    SECRET_KEY = "1F9HClu5BiUu5MT6xvAf"
+    SQLALCHEMY_COMMIT_ON_TEARDOWN = True
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     @staticmethod
     def init_app(app):
@@ -14,11 +14,11 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    dbase_path = "sqlite:///" + join(basedir, "database-dev.sqlite")
+    SQLALCHEMY_DATABASE_URI = "sqlite:///" + join(basedir, "database-dev.sqlite")
     
 class ProductionConfig(Config):
     DEBUG = True
-    dbase_path = "sqlite:///" + join(basedir, "database.sqlite")
+    SQLALCHEMY_DATABASE_URI = "sqlite:///" + join(basedir, "database.sqlite")
 
 
 config = {

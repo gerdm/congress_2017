@@ -30,7 +30,7 @@
          dropdown.table.attr("disabled", "disabled");
          dropdown.table.empty();
 
-         $.getJSON("{{ url_for('_get_tables')  }}", send, function(data){
+         $.getJSON("{{ url_for('main._get_tables')  }}", send, function(data){
              data.forEach(function(item){
                  dropdown.table.append(
                          $("<option>", {
@@ -50,7 +50,7 @@
          dropdown.workshop.attr("disabled", "disabled");
          dropdown.workshop.empty();
 
-         $.getJSON("{{ url_for('_get_workshops')  }}", send, function(data){
+         $.getJSON("{{ url_for('main._get_workshops')  }}", send, function(data){
              data.forEach(function(item){
                  dropdown.workshop.append(
                          $("<option>", {
