@@ -3,6 +3,7 @@ from . import main
 from .forms import MembersForm
 from .. import db
 from ..models import Round_Table, Workshop, Grade
+from flask_login import login_required
 
 @main.route("/_get_tables/")
 def _get_tables():
@@ -37,5 +38,7 @@ def user(name):
 # The 'redirect' method allows the webpage to take you
 # to another page and return a 302 response: redirect
 @main.route("/redirect")
+@login_required
 def goto_github():
     return redirect("https://github.com/gerdm")
+
