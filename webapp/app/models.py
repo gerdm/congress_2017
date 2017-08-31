@@ -1,3 +1,4 @@
+from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin 
 from . import db, login_manager
 
@@ -72,14 +73,28 @@ class Round_Table(db.Model):
         return "<Round Table {table}>".format(table=self.table)
 
 
-class Manager(UserMixin, db.Model):
-    __tablename__ = "managers"
+class Staff(UserMixin, db.Model):
+    __tablename__ = "staff"
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(64), unique=True)
     username = db.Column(db.String(64), unique=True)
-    password_hash = db.column(db.String(128))
+    password_hash = db.Column(db.String(128))
+
+    @property
+    def password(self):
+        raise AttributeError("Password is not a readable attribute")
+
+    @password.setter
+    def password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def verify_password(self, password):
+        return check_password_hash(self.password_hash, password)
+
+    def __repr__(self):
+        return "<Staff {staff}>".format(staff=self.username)
 
 
 @login_manager.user_loader
 def load_user(user_id):
-    return Manager.query.get(int(user_id))
+    return Staff.query.get(int(user_id))
