@@ -6,7 +6,8 @@ class User(db.Model):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(64), unique=False)
-    last_name = db.Column(db.String(64), unique=False)
+    last_name_father = db.Column(db.String(64), unique=False)
+    last_name_mother = db.Column(db.String(64), unique=False)
     email = db.Column(db.String(64), unique=True, index=True)
     school = db.Column(db.String(64), unique=False)
     kit = db.Column(db.Boolean, unique=False)

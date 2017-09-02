@@ -3,12 +3,13 @@ from wtforms import StringField, SelectField, SubmitField
 from wtforms.validators import Required
 
 class MembersForm(FlaskForm):
-    first_name = StringField("First Name", validators=[Required()])
-    last_name = StringField("Last name", validators=[Required()])
+    first_name = StringField("Nombre", validators=[Required()])
+    last_name_father = StringField("Apellido Paterno", validators=[Required()])
+    last_name_mother = StringField("Apellido Materno", validators=[Required()])
     email = StringField("Email", validators=[Required()])
     # Dinamyc creation of the form for grade and workshop: setting the data afterwards
-    grade = SelectField("Student Grade", coerce=int, id="select_grade")
-    round_table = SelectField("Round table", coerce=int, id="select_table")
-    workshop = SelectField("Workshop", coerce=int, id="select_workshop")
-    secret_code = StringField("Secret Code", validators=[Required()])
-    submit = SubmitField("Submit")
+    grade = SelectField("Grado de Estudio", coerce=int, id="select_grade")
+    round_table = SelectField("Selecciona la mesa rendonda a atender", coerce=int, id="select_table")
+    workshop = SelectField("Selecciona el taller a participar", coerce=int, id="select_workshop")
+    secret_code = StringField("Validación de código", validators=[Required()])
+    submit = SubmitField("Enviar")
