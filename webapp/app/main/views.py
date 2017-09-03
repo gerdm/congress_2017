@@ -2,7 +2,7 @@ from flask import jsonify, render_template, redirect, url_for, session, request,
 from . import main
 from .forms import MembersForm
 from .. import db
-from ..models import Round_Table, Workshop, Grade
+from ..models import Round_Table, Workshop, Grade, Beverage
 from flask_login import login_required
 
 @main.route("/_get_tables/")
@@ -25,6 +25,7 @@ def index():
     form.grade.choices = [(row.id, row.name) for row in Grade.query.all()]
     form.round_table.choices = [(row.id, row.table) for row in Round_Table.query.all()]
     form.workshop.choices = [(row.id, row.workshop) for row in Workshop.query.all()]
+    form.beverage.choices = [(row.id, row.beverage) for row in Beverage.query.all()]
     if form.validate_on_submit():
         session["first_name"] = form.first_name.data
         flash("Thank you for signing in {}!".format(session.get("first_name")))

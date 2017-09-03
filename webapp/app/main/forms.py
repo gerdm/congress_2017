@@ -7,6 +7,7 @@ class MembersForm(FlaskForm):
     last_name_father = StringField("Apellido Paterno", validators=[Required()])
     last_name_mother = StringField("Apellido Materno", validators=[Required()])
     email = StringField("Email", validators=[Required()])
+    beverage = SelectField("Bebida", coerce=int)
     # Dinamyc creation of the form for grade and workshop: setting the data afterwards
     grade = SelectField("Grado de Estudio", coerce=int, id="select_grade")
     round_table = SelectField("Selecciona la mesa rendonda a atender", coerce=int, id="select_table")

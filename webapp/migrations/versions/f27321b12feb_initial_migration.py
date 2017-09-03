@@ -1,8 +1,8 @@
 """initial migration
 
-Revision ID: b7df43043785
+Revision ID: f27321b12feb
 Revises: 
-Create Date: 2017-09-02 08:19:26.129933
+Create Date: 2017-09-03 14:29:44.764186
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'b7df43043785'
+revision = 'f27321b12feb'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -39,12 +39,6 @@ def upgrade():
     sa.UniqueConstraint('email'),
     sa.UniqueConstraint('username')
     )
-    op.create_table('user_types',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('type', sa.String(length=64), nullable=True),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('type')
-    )
     op.create_table('round_tables',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('table', sa.String(), nullable=True),
@@ -70,13 +64,11 @@ def upgrade():
     sa.Column('kit', sa.Boolean(), nullable=True),
     sa.Column('grade_id', sa.Integer(), nullable=True),
     sa.Column('beverage_id', sa.Integer(), nullable=True),
-    sa.Column('user_type_id', sa.Integer(), nullable=True),
     sa.Column('workshop_id', sa.Integer(), nullable=True),
     sa.Column('round_table_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['beverage_id'], ['beverages.id'], ),
     sa.ForeignKeyConstraint(['grade_id'], ['school_grades.id'], ),
     sa.ForeignKeyConstraint(['round_table_id'], ['round_tables.id'], ),
-    sa.ForeignKeyConstraint(['user_type_id'], ['user_types.id'], ),
     sa.ForeignKeyConstraint(['workshop_id'], ['workshops.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
@@ -90,7 +82,6 @@ def downgrade():
     op.drop_table('users')
     op.drop_table('workshops')
     op.drop_table('round_tables')
-    op.drop_table('user_types')
     op.drop_table('staff')
     op.drop_table('school_grades')
     op.drop_table('beverages')
