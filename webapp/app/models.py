@@ -18,7 +18,7 @@ class User(db.Model):
 
     def __repr__(self):
         return ("<User {first} {last}>"
-                .format(first=self.first_name, last=self.last_name))
+                .format(first=self.first_name, last=self.last_name_father))
 
 class Grade(db.Model):
     __tablename__ = "school_grades"
@@ -27,7 +27,7 @@ class Grade(db.Model):
     users = db.relationship("User", backref="grade", lazy="dynamic")
 
     def __repr__(self):
-        return "<School Grade {grade}>".format(grade=self.name)
+        return "{grade}".format(grade=self.name)
 
 class Beverage(db.Model):
     __tablename__ = "beverages"
@@ -48,7 +48,7 @@ class Workshop(db.Model):
     users = db.relationship("User", backref="workshop", lazy="dynamic")
 
     def __repr__(self):
-        return "<Workshop {ws}>".format(ws=self.workshop)
+        return "{ws}".format(ws=self.workshop)
 
 
 class Round_Table(db.Model):
@@ -57,10 +57,10 @@ class Round_Table(db.Model):
     table = db.Column(db.String)
     grade_allowed = db.Column(db.Integer, db.ForeignKey("school_grades.id"))
     available_position = db.Column(db.Integer)
-    users = db.relationship("User", backref="role", lazy="dynamic")
+    users = db.relationship("User", backref="round_table", lazy="dynamic")
     
     def __repr__(self):
-        return "<Round Table {table}>".format(table=self.table)
+        return "{table}".format(table=self.table)
 
 
 class Staff(UserMixin, db.Model):

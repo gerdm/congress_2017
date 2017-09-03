@@ -18,12 +18,11 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">Congreso 2017</a>
+            <a class="navbar-brand" href="/">
+                Congreso Actuarial 2017
+            </a>
         </div>
         <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li><a href="{{ url_for('main.index', external=True) }}">Home</a></li>
-            </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if current_user.is_authenticated %}
                 <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li> {% else %}

@@ -1,7 +1,50 @@
 {% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
 
 {% block page_content %}
 <div class="page-header">
-    <h1>Hello, {{ name  }}!</h1>
+    <h1>{{ user.first_name }}</h1>
 </div>
+<table class="table">
+    <tr>
+        <th>Kit-Alta</th>
+        {% if not user.kit %}
+        <td style="color:#DC143C"> No Entregado</td>
+        {% else %}
+        <td style="color:#32CD32">Entregado</td>
+        {% endif %}
+    </tr>
+    <tr>
+        <th>Nombre</th>
+        <td>{{ user.first_name }}</td>
+    </tr>
+    <tr>
+        <th>Apellido Paterno</th>
+        <td>{{ user.last_name_father }}</td>
+    </tr>
+    <tr>
+        <th>Apellido Materno</th>
+        <td>{{ user.last_name_mother }}</td>
+    </tr>
+    <tr>
+        <th>Escuela</th>
+        <td>{{ user.school }}</td>
+    </tr>
+    <tr>
+        <th>Grado</th>
+        <td>{{ user.grade }}</td>
+    </tr>
+    <tr>
+        <th>Taller</th>
+        <td>{{ user.workshop }}</td>
+    </tr>
+    <tr>
+        <th>Mesa Redonda</th>
+        <td>{{ user.round_table }}</td>
+    </tr>
+</table>
+
+{% if not user.kit %}
+    {{ wtf.quick_form(form) }}
+{% endif %}
 {% endblock %}

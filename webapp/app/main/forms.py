@@ -7,6 +7,7 @@ class MembersForm(FlaskForm):
     last_name_father = StringField("Apellido Paterno", validators=[Required()])
     last_name_mother = StringField("Apellido Materno", validators=[Required()])
     email = StringField("Email", validators=[Required()])
+    school = StringField("Escuela", validators=[Required()])
     beverage = SelectField("Bebida", coerce=int)
     # Dinamyc creation of the form for grade and workshop: setting the data afterwards
     grade = SelectField("Grado de Estudio", coerce=int, id="select_grade")
@@ -14,3 +15,6 @@ class MembersForm(FlaskForm):
     workshop = SelectField("Selecciona el taller a participar", coerce=int, id="select_workshop")
     secret_code = StringField("Validación de código", validators=[Required()])
     submit = SubmitField("Enviar")
+
+class SignUser(FlaskForm):
+    submit = SubmitField("Dar de alta")
