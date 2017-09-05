@@ -84,6 +84,10 @@ class Staff(UserMixin, db.Model):
     def __repr__(self):
         return "<Staff {staff}>".format(staff=self.username)
 
+class Passcode(db.Model):
+    __tablename__ = "passes"
+    id = db.Column(db.Integer, primary_key=True)
+    passes = db.Column(db.String(128))
 
 @login_manager.user_loader
 def load_user(user_id):

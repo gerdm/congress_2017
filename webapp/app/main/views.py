@@ -2,7 +2,7 @@ from flask import jsonify, render_template, redirect, url_for, session, request,
 from . import main
 from .forms import MembersForm, SignUser
 from .. import db
-from ..models import Round_Table, Workshop, Grade, Beverage, User
+from ..models import Round_Table, Workshop, Grade, Beverage, User, Passcode
 from flask_login import login_required
 
 @main.route("/_get_tables/")
@@ -27,23 +27,31 @@ def index():
     form.workshop.choices = [(row.id, row.workshop) for row in Workshop.query.all()]
     form.beverage.choices = [(row.id, row.beverage) for row in Beverage.query.all()]
     if form.validate_on_submit():
-        session["first_name"] = form.first_name.data
-        new_user = User(
-                first_name = form.first_name.data,
-                last_name_father = form.last_name_father.data,
-                last_name_mother = form.last_name_mother.data,
-                email = form.email.data,
-                school = form.school.data,
-                grade_id = form.grade.data,
-                beverage_id = form.beverage.data,
-                workshop_id = form.workshop.data,
-                round_table_id = form.round_table.data,
-                kit=False
-                )
-        db.session.add(new_user)
+        validate_pass = Passcode.query.filter_by(passes=form.secret_code.data)
+        if bool(validate_pass.first()):
+            session["first_name"] = form.first_name.data
+            new_user = User(
+                    first_name = form.first_name.data,
+                    last_name_father = form.last_name_father.data,
+                    last_name_mother = form.last_name_mother.data,
+                    email = form.email.data,
+                    school = form.school.data,
+                    grade_id = form.grade.data,
+                    beverage_id = form.beverage.data,
+                    workshop_id = form.workshop.data,
+                    round_table_id = form.round_table.data,
+                    kit=False
+                    )
+            db.session.add(new_user)
 
-        flash("Thank you for signing in {}!".format(sessio.get("first_name")))
-        return redirect(url_for(".index"))
+            # Delete passcode from database; update database
+            validate_pass.delete()
+            db.session.commit()
+
+            flash("¡Gracias por inscribirte, {}!".format(session.get("first_name")))
+            return redirect(url_for(".index"))
+        else:
+            flash("¡Código no valido!")
     return render_template("index.html", form=form)
 
 @main.route("/user/<username_id>", methods=["GET", "POST"])
