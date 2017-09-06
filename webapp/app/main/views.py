@@ -1,9 +1,29 @@
 from flask import jsonify, render_template, redirect, url_for, session, request, flash
-from . import main
-from .forms import MembersForm, SignUser
-from .. import db
 from ..models import Round_Table, Workshop, Grade, Beverage, User, Passcode
+from .forms import MembersForm, SignUser
 from flask_login import login_required
+from . import main
+from .. import db
+
+import pyqrcode as qr
+from io import BytesIO
+from PIL import Image, ImageDraw
+from flask import send_file
+import base64
+
+
+@main.route("/extract/<id>", methods=["POST"])
+def extract_name(id):
+    url_user = url_for(".user", username_id=id, _external=True)
+    qr_pass = qr.create(url_user)
+    qr_save = BytesIO()
+    qr_pass.png(qr_save, scale=20)
+    qr_save.seek(0)
+    qr_png = base64.b64encode(qr_save.getvalue())
+
+    user_name = User.query.filter_by(id=id).first().first_name
+    return render_template("outputqr.html", result=qr_png.decode("utf8"),
+                           name=user_name)
 
 @main.route("/_get_tables/")
 def _get_tables():
@@ -42,11 +62,14 @@ def index():
                     round_table_id = form.round_table.data,
                     kit=False
                     )
-            db.session.add(new_user)
 
-            # Delete passcode from database; update database
+            # Add User to database; Delete passcode from database;
+            # and update database
+            db.session.add(new_user)
             validate_pass.delete()
             db.session.commit()
+
+            user_id = new_user.id
 
             flash("¡Gracias por inscribirte, {}!".format(session.get("first_name")))
             return redirect(url_for(".index"))

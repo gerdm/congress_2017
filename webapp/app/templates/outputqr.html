@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+
+{% block page_content %}
+<div class="page-header">
+    <h1> ¡Gracias por inscribirte, {{ name }}!</h1>
+    <h3> Abajo encontrarás un código QR. Es importante que conserves este código ya que te será necesario durante todo el congreso. </h3>
+</div>
+<div class="page-content">
+    <img src="data:image/png;base64,{{ result }}" width="500">
+</div>
+{% endblock %}
