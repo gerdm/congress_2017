@@ -12,7 +12,7 @@ from flask import send_file
 import base64
 
 
-@main.route("/extract/<id>", methods=["POST"])
+@main.route("/extract_name/<id>", methods=["POST"])
 def extract_name(id):
     url_user = url_for(".user", username_id=id, _external=True)
     qr_pass = qr.create(url_user)
@@ -71,7 +71,7 @@ def index():
 
             user_id = new_user.id
 
-            flash("¡Gracias por inscribirte, {}!".format(session.get("first_name")))
+            return redirect(url_for(".extract_name", id=user_id), code=307)
             return redirect(url_for(".index"))
         else:
             flash("¡Código no valido!")
