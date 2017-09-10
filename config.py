@@ -18,7 +18,7 @@ class DevelopmentConfig(Config):
     
 class ProductionConfig(Config):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
+    SQLALCHEMY_DATABASE_URI = "postgres://ftsiumhnodtdvh:078cbbc380a50b2695a63bdb1fa46600b65a45197ce44f3a7289627a95233629@ec2-107-22-173-160.compute-1.amazonaws.com:5432/dftpi7njrgctsk"
 
 
 config = {
