@@ -2,8 +2,8 @@
 {% import "bootstrap/wtf.html" as wtf %}
 
 {%block page_content %}
-    <h1>Hello, {% if current_user.is_authenticated %}{{ current_user.username }}{% else %}Stranger{% endif %}!</h1>
-    <p> Please fill out the form </p>
+    <h1> ¡Bienvenido! </h1>
+    <p> Es necesario que llenes unos datos para tu inscripción al XIX congreso actuarial de la Universidad Marista. </p>
 
     {{ wtf.quick_form(form) }}
 
