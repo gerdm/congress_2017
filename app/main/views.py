@@ -72,7 +72,6 @@ def index():
             user_id = new_user.id
 
             return redirect(url_for(".extract_name", id=user_id), code=307)
-            return redirect(url_for(".index"))
         else:
             flash("¡Código no valido!")
     return render_template("index.html", form=form)
