@@ -12,7 +12,6 @@ class User(db.Model):
     school = db.Column(db.String(64), unique=False)
     kit = db.Column(db.Boolean, unique=False)
     grade_id = db.Column(db.Integer, db.ForeignKey("school_grades.id"))
-    beverage_id = db.Column(db.Integer, db.ForeignKey("beverages.id"))
     workshop_id = db.Column(db.Integer, db.ForeignKey("workshops.id"))
     round_table_id = db.Column(db.Integer, db.ForeignKey("round_tables.id"))
 

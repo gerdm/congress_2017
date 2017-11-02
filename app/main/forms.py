@@ -12,7 +12,6 @@ class MembersForm(FlaskForm):
     grade = SelectField("Grado de Estudio", coerce=int, id="select_grade")
     round_table = SelectField("Selecciona la mesa rendonda a atender", coerce=int, id="select_table")
     workshop = SelectField("Selecciona el taller a participar", coerce=int, id="select_workshop")
-    beverage = SelectField("Bebida", coerce=int)
     secret_code = StringField("Validación de código", validators=[Required()])
     submit = SubmitField("Enviar")
 

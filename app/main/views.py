@@ -57,7 +57,6 @@ def index():
                     email = form.email.data,
                     school = form.school.data,
                     grade_id = form.grade.data,
-                    beverage_id = form.beverage.data,
                     workshop_id = form.workshop.data,
                     round_table_id = form.round_table.data,
                     kit=False
