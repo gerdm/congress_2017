@@ -12,7 +12,6 @@
 {%block scripts %}
 {{ super() }}
 <script charset="utf-8" type="text/javascript">
-//TODO: Correct ugly-ass double function
  $(function(){
      var dropdown = {
          grade: $("#select_grade"),
@@ -20,7 +19,6 @@
          table: $("#select_table")
      };
 
-     update_workshop();
      update_table();
 
      function update_table(){
@@ -43,28 +41,7 @@
          });
      }
 
-     function update_workshop(){
-         var send = {
-             grade: dropdown.grade.val()
-         };
-         dropdown.workshop.attr("disabled", "disabled");
-         dropdown.workshop.empty();
-
-         $.getJSON("{{ url_for('main._get_workshops')  }}", send, function(data){
-             data.forEach(function(item){
-                 dropdown.workshop.append(
-                         $("<option>", {
-                             value: item[0],
-                             text: item[1]
-                         })
-                 );
-             });
-             dropdown.workshop.removeAttr("disabled");
-         });
-     }
-
      dropdown.grade.on("change", function(){
-         update_workshop();
          update_table();
      });
  });

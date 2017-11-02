@@ -32,13 +32,6 @@ def _get_tables():
               Round_Table.query.filter_by(grade_allowed=grade).all()]
     return jsonify(tables)
 
-@main.route("/_get_workshops/")
-def _get_workshops():
-    grade  = request.args.get("grade", 1, type=int)
-    workshops = [(row.id, row.workshop) for row in
-              Workshop.query.filter_by(grade_allowed=grade).all()]
-    return jsonify(workshops)
-
 @main.route("/", methods=["GET", "POST"])
 def index():
     form = MembersForm()
