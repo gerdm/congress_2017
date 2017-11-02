@@ -11,7 +11,6 @@ class MembersForm(FlaskForm):
     # Dinamyc creation of the form for grade and workshop: setting the data afterwards
     grade = SelectField("Grado de Estudio", coerce=int, id="select_grade")
     round_table = SelectField("Selecciona la mesa rendonda a atender", coerce=int, id="select_table")
-    workshop = SelectField("Selecciona el taller a participar", coerce=int, id="select_workshop")
     secret_code = StringField("Validación de código", validators=[Required()])
     submit = SubmitField("Enviar")
 
