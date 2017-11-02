@@ -45,7 +45,6 @@ def index():
     form.grade.choices = [(row.id, row.name) for row in Grade.query.all()]
     form.round_table.choices = [(row.id, row.table) for row in Round_Table.query.all()]
     form.workshop.choices = [(row.id, row.workshop) for row in Workshop.query.all()]
-    form.beverage.choices = [(row.id, row.beverage) for row in Beverage.query.all()]
     if form.validate_on_submit():
         validate_pass = Passcode.query.filter_by(passes=form.secret_code.data)
         if bool(validate_pass.first()):
