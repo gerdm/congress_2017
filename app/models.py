@@ -28,16 +28,6 @@ class Grade(db.Model):
     def __repr__(self):
         return "{grade}".format(grade=self.name)
 
-class Beverage(db.Model):
-    __tablename__ = "beverages"
-    id = db.Column(db.Integer, primary_key=True)
-    beverage = db.Column(db.String(64), unique=True)
-    users = db.relationship("User", backref="beverage", lazy="dynamic")
-
-    def __repr__(self):
-        return "<Beverage {beverage}>".format(beverage=self.beverage)
-
-
 class Workshop(db.Model):
     __tablename__ ="workshops"
     id = db.Column(db.Integer, primary_key=True)

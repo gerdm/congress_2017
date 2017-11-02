@@ -1,5 +1,5 @@
 from flask import jsonify, render_template, redirect, url_for, session, request, flash
-from ..models import Round_Table, Workshop, Grade, Beverage, User, Passcode
+from ..models import Round_Table, Workshop, Grade, User, Passcode
 from .forms import MembersForm, SignUser
 from flask_login import login_required
 from . import main
