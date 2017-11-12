@@ -30,7 +30,7 @@ def index():
     form = MembersForm()
     form.grade.choices = [(row.id, row.name) for row in Grade.query.all()]
     form.round_table.choices = [(row.id, row.table) for row in Round_Table.query.all()
-                                if row.available_positions > 0]
+                                if row.available_position > 0]
     if form.validate_on_submit():
         validate_pass = Passcode.query.filter_by(passes=form.secret_code.data)
         if bool(validate_pass.first()):
