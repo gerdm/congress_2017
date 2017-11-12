@@ -73,20 +73,20 @@ def user(username_id):
                     "users.id = {}".format(username_id))
     user_workshop = list(db.engine.execute(query))[0][0]
     formd1 = SignUser()
-    formd2 = SignUser()
+    formd1.day.choices([(user.day1, "Día 1"), (user.day2, "Día 2")])
+
     formf1 = GiveFood()
     formf2 = GiveFood()
     if formd1.validate_on_submit():
-        user.day1 = True
-    if formd2.validate_on_submit():
-        user.day2 = True
+        formd1.day.data = True
+
     if formf1.validate_on_submit():
         user.food1 = True
     if formf2.validate_on_submit():
         user.food2 = True
 
     return render_template("user.html", user=user, formd1=formd1,
-                           formd2=formd2, formf1=formf1, formf2=formf2,
+                           formf1=formf1, formf2=formf2,
                            user_workshop=user_workshop)
 
 # The 'redirect' method allows the webpage to take you

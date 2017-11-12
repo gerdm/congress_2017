@@ -69,29 +69,8 @@
 </table>
 
 <div>
-{% if not user.kit1 %}
-    <h3>Registro día 1</h3>
-    {{ wtf.quick_form(formd1) }}
-{% endif %}
-
-{% if not user.kit2 and user.kit1%}
-    <h3>Registro día 2</h3>
-    {{ wtf.quick_form(formd2) }}
-{% endif %}
+<h3>Registro día 1</h3>
+{{ wtf.quick_form(formd1) }}
 </div>
 
-
-{% if not user.food1 %}
-<div>
-    <h3>Comida día 1</h3>
-    {{ wtf.quick_form(formf1) }}
-</div>
-{% endif %}
-
-{% if not user.food2 and user.food1%}
-<div>
-    <h3>Comida día 2</h3>
-    {{ wtf.quick_form(formf2) }}
-</div>
-{% endif %}
 {% endblock %}
