@@ -16,3 +16,6 @@ class MembersForm(FlaskForm):
 
 class SignUser(FlaskForm):
     submit = SubmitField("Registrar")
+
+class GiveFood(FlaskForm):
+    submit = SubmitField("Entregar")

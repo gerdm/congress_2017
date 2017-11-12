@@ -1,6 +1,6 @@
 from flask import jsonify, render_template, redirect, url_for, session, request, flash
 from ..models import Round_Table, Workshop, Grade, User, Passcode
-from .forms import MembersForm, SignUser
+from .forms import MembersForm, SignUser, GiveFood
 from flask_login import login_required
 from . import main
 from .. import db
@@ -74,8 +74,8 @@ def user(username_id):
     user_workshop = list(db.engine.execute(query))[0][0]
     formd1 = SignUser()
     formd2 = SignUser()
-    formf1 = SignUser()
-    formf2 = SignUser()
+    formf1 = GiveFood()
+    formf2 = GiveFood()
     if formd1.validate_on_submit():
         user.day1 = True
     if formd2.validate_on_submit():
