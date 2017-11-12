@@ -78,11 +78,11 @@ def user(username_id):
     formf2 = SignUser()
     if formd1.validate_on_submit():
         user.day1 = True
-    elif formd2.validate_on_submit():
+    if formd2.validate_on_submit():
         user.day2 = True
-    elif formf1.validate_on_submit():
+    if formf1.validate_on_submit():
         user.food1 = True
-    elif formf2.validate_on_submit():
+    if formf2.validate_on_submit():
         user.food2 = True
 
     return render_template("user.html", user=user, formd1=formd1,
