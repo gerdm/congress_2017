@@ -29,11 +29,13 @@ def extract_name(id):
 def index():
     form = MembersForm()
     form.grade.choices = [(row.id, row.name) for row in Grade.query.all()]
-    form.round_table.choices = [(row.id, row.table) for row in Round_Table.query.all()]
+    form.round_table.choices = [(row.id, row.table) for row in Round_Table.query.all()
+                                if row.available_positions > 0]
     if form.validate_on_submit():
         validate_pass = Passcode.query.filter_by(passes=form.secret_code.data)
         if bool(validate_pass.first()):
             session["first_name"] = form.first_name.data
+            round_table_id = form.round_table.data
             new_user = User(
                     first_name=form.first_name.data,
                     last_name_father=form.last_name_father.data,
@@ -41,13 +43,16 @@ def index():
                     email=form.email.data,
                     school=form.school.data,
                     grade_id=form.grade.data,
-                    round_table_id=form.round_table.data,
+                    round_table_id=round_table_id,
                     kit=False)
 
-            # Add User to database; Delete passcode from database;
-            # and update database
+            # Add User to database
             db.session.add(new_user)
+            # Delete passcode from database
             validate_pass.delete()
+            # Remove one available position
+            Round_Table.query.filter_by(id=round_table_id).first.available_position -= 1
+            # and update database
             db.session.commit()
 
             user_id = new_user.id
