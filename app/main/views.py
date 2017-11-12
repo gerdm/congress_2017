@@ -69,8 +69,8 @@ def user(username_id):
             "FROM workshops, school_grades, users "
              "WHERE workshops.id = school_grades.workshop_id AND "
                     "school_grades.id = users.grade_id AND "
-                    "users.id = {}".format(user_id))
-    user_workshop = list(db.engine.execute(query))
+                    "users.id = {}".format(username_id))
+    user_workshop = list(db.engine.execute(query))[0][0]
     print(query)
     print("************{}************".format(user_workshop))
     form = SignUser()
