@@ -72,7 +72,8 @@ def user(username_id):
                     "school_grades.id = users.grade_id AND "
                     "users.id = {}".format(user_id))
     print(query)
-    user_workshop = list(db.engine.execute(query))[0][0]
+    user_workshop = list(db.engine.execute(query))
+    print(user_workshop)
     form = SignUser()
     if form.validate_on_submit():
         user.kit = True
