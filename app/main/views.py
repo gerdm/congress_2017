@@ -73,7 +73,6 @@ def user(username_id):
                     "users.id = {}".format(username_id))
     user_workshop = list(db.engine.execute(query))[0][0]
     formd1 = SignUser()
-    formd1.day.choices([(1, "Día 1"), (2, "Día 2")])
 
     formf1 = GiveFood()
     formf2 = GiveFood()
