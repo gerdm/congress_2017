@@ -10,7 +10,7 @@
         <th>Asistencia día 1</th>
         {% if not user.day1 %}
         <td style="color:#DC143C">No Registrado</td>
-        {% else %}
+        {% elif user.day1 %}
         <td style="color:#32CD32">Registrado</td>
         {% endif %}
     </tr>
@@ -18,7 +18,7 @@
         <th>Asistencia día 2</th>
         {% if not user.day2 %}
         <td style="color:#DC143C">No Registrado</td>
-        {% else %}
+        {% elif user.day2 %}
         <td style="color:#32CD32">Registrado</td>
         {% endif %}
     </tr>
@@ -54,7 +54,7 @@
         <th>Comida día 1</th>
         {% if not user.food1 %}
         <td style="color:#DC143C">No Entregada</td>
-        {% else %}
+        {% elif user.food1 %}
         <td style="color:#32CD32">Entregada</td>
         {% endif %}
     </tr>
@@ -62,7 +62,7 @@
         <th>Comida día 2</th>
         {% if not user.food2 %}
         <td style="color:#DC143C">No Entregado</td>
-        {% else %}
+        {% elif user.food2%}
         <td style="color:#32CD32">Entregado</td>
         {% endif %}
     </tr>
