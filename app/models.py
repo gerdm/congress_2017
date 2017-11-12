@@ -22,7 +22,7 @@ class Grade(db.Model):
     __tablename__ = "school_grades"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), unique=True)
-    workshop_id = db.Column(db.integer)
+    workshop_id = db.Column(db.Integer)
     users = db.relationship("User", backref="grade", lazy="dynamic")
 
     def __repr__(self):
