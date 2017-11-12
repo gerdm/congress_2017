@@ -52,10 +52,17 @@
     </tr>
 </table>
 
-<div>
 {% if not user.kit1 %}
+<div>
     <h3>Registro día 1</h3>
     {{ wtf.quick_form(formd1) }}
-{% endif %}
 </div>
+{% endif %}
+
+{% if not user.kit2 %}
+<div>
+    <h3>Registro día 2</h3>
+    {{ wtf.quick_form(formd2) }}
+</div>
+{% endif %}
 {% endblock %}
