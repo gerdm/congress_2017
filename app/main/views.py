@@ -73,7 +73,7 @@ def user(username_id):
     user_workshop = list(db.engine.execute(query))[0][0]
     form = SignUser()
     if form.validate_on_submit():
-        user.kit = True
+        user.kit = True if user.kit is False else False
         return render_template("user.html", user=user, form=form, user_workshop=user_workshop)
     return render_template("user.html", user=user, form=form, user_workshop=user_workshop)
 

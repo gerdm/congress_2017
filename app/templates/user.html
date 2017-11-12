@@ -44,8 +44,5 @@
     </tr>
 </table>
 
-{% if not user.kit %}
-    {{ wtf.quick_form(form) }}
-{% endif %}
-    {{ wtf.quick_form(form) }}
+{{ wtf.quick_form(form) }}
 {% endblock %}
