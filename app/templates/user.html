@@ -59,7 +59,7 @@
 </div>
 {% endif %}
 
-{% if not user.kit2 %}
+{% if not user.kit2 and user.kit1%}
 <div>
     <h3>Registro día 2</h3>
     {{ wtf.quick_form(formd2) }}
