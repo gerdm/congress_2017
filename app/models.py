@@ -33,7 +33,6 @@ class Workshop(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     workshop = db.Column(db.String(64), unique=True)
     available_positions = db.Column(db.Integer)
-    users = db.relationship("User", backref="workshop", lazy="dynamic")
 
     def __repr__(self):
         return "{ws}".format(ws=self.workshop)
