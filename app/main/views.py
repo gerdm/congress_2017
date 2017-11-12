@@ -28,7 +28,8 @@ def extract_name(id):
 @main.route("/", methods=["GET", "POST"])
 def index():
     form = MembersForm()
-    form.grade.choices = [(row.id, row.name) for row in Grade.query.all()]
+    #form.grade.choices = [(row.id, row.name) for row in Grade.query.all()]
+    form.grade.choices = [(i, i**2) for i in range(10)]
     form.round_table.choices = [(row.id, row.table) for row in Round_Table.query.all()]
     if form.validate_on_submit():
         validate_pass = Passcode.query.filter_by(passes=form.secret_code.data)
