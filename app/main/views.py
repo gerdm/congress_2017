@@ -51,10 +51,9 @@ def index():
             # Delete passcode from database
             validate_pass.delete()
             # Remove one available position
-            Round_Table.query.filter_by(id=round_table_id).first.available_position -= 1
+            Round_Table.query.filter_by(id=round_table_id).first().available_position -= 1
             # and update database
             db.session.commit()
-
             user_id = new_user.id
 
             return redirect(url_for(".extract_name", id=user_id), code=307)
