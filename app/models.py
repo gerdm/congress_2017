@@ -12,7 +12,6 @@ class User(db.Model):
     school = db.Column(db.String(64), unique=False)
     kit = db.Column(db.Boolean, unique=False)
     grade_id = db.Column(db.Integer, db.ForeignKey("school_grades.id"))
-    workshop_id = db.Column(db.Integer, db.ForeignKey("workshops.id"))
     round_table_id = db.Column(db.Integer, db.ForeignKey("round_tables.id"))
 
     def __repr__(self):
@@ -23,6 +22,7 @@ class Grade(db.Model):
     __tablename__ = "school_grades"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), unique=True)
+    workshop_id = db.Column(db.integer)
     users = db.relationship("User", backref="grade", lazy="dynamic")
 
     def __repr__(self):
@@ -32,7 +32,6 @@ class Workshop(db.Model):
     __tablename__ ="workshops"
     id = db.Column(db.Integer, primary_key=True)
     workshop = db.Column(db.String(64), unique=True)
-    grade_allowed = db.Column(db.Integer, db.ForeignKey("school_grades.id"))
     available_positions = db.Column(db.Integer)
     users = db.relationship("User", backref="workshop", lazy="dynamic")
 
@@ -44,7 +43,6 @@ class Round_Table(db.Model):
     __tablename__ = "round_tables"
     id = db.Column(db.Integer, primary_key=True)
     table = db.Column(db.String)
-    grade_allowed = db.Column(db.Integer, db.ForeignKey("school_grades.id"))
     available_position = db.Column(db.Integer)
     users = db.relationship("User", backref="round_table", lazy="dynamic")
     

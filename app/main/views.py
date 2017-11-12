@@ -25,13 +25,6 @@ def extract_name(id):
     return render_template("outputqr.html", result=qr_png.decode("utf8"),
                            name=user_name)
 
-@main.route("/_get_tables/")
-def _get_tables():
-    grade  = request.args.get("grade", 1, type=int)
-    tables = [(row.id, row.table) for row in
-              Round_Table.query.filter_by(grade_allowed=grade).all()]
-    return jsonify(tables)
-
 @main.route("/", methods=["GET", "POST"])
 def index():
     form = MembersForm()
@@ -42,15 +35,14 @@ def index():
         if bool(validate_pass.first()):
             session["first_name"] = form.first_name.data
             new_user = User(
-                    first_name = form.first_name.data,
-                    last_name_father = form.last_name_father.data,
-                    last_name_mother = form.last_name_mother.data,
-                    email = form.email.data,
-                    school = form.school.data,
-                    grade_id = form.grade.data,
-                    round_table_id = form.round_table.data,
-                    kit=False
-                    )
+                    first_name=form.first_name.data,
+                    last_name_father=form.last_name_father.data,
+                    last_name_mother=form.last_name_mother.data,
+                    email=form.email.data,
+                    school=form.school.data,
+                    grade_id=form.grade.data,
+                    round_table_id=form.round_table.data,
+                    kit=False)
 
             # Add User to database; Delete passcode from database;
             # and update database
