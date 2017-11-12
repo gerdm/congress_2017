@@ -73,14 +73,21 @@ def user(username_id):
                     "users.id = {}".format(username_id))
     user_workshop = list(db.engine.execute(query))[0][0]
     formd1 = SignUser()
-    formd2 = SignUser()
+    formd1 = SignUser()
+    formf1 = SignUser()
+    formf2 = SignUser()
     if formd1.validate_on_submit():
         user.day1 = True
     elif formd2.validate_on_submit():
         user.day2 = True
+    elif formf1.validate_on_submit():
+        user.food1 = True
+    elif formf2.validate_on_submit():
+        user.food2 = True
 
     return render_template("user.html", user=user, formd1=formd1,
-                           formd2=formd2, user_workshop=user_workshop)
+                           formd2=formd2, formf1=formf1, formf2=formf2,
+                           user_workshop=user_workshop)
 
 # The 'redirect' method allows the webpage to take you
 # to another page and return a 302 response: redirect

@@ -50,6 +50,22 @@
         <th>Taller</th>
         <td>{{ user_workshop }}</td>
     </tr>
+    <tr>
+        <th>Comida día 1</th>
+        {% if not user.day1 %}
+        <td style="color:#DC143C">No Entregada</td>
+        {% else %}
+        <td style="color:#32CD32">Entregada</td>
+        {% endif %}
+    </tr>
+    <tr>
+        <th>Comida día 2</th>
+        {% if not user.day2 %}
+        <td style="color:#DC143C">No Entregado</td>
+        {% else %}
+        <td style="color:#32CD32">Entregado</td>
+        {% endif %}
+    </tr>
 </table>
 
 {% if not user.kit1 %}
@@ -63,6 +79,21 @@
 <div>
     <h3>Registro día 2</h3>
     {{ wtf.quick_form(formd2) }}
+</div>
+{% endif %}
+
+
+{% if not user.food1 %}
+<div>
+    <h3>Comida día 1</h3>
+    {{ wtf.quick_form(formf1) }}
+</div>
+{% endif %}
+
+{% if not user.food2 and user.food1%}
+<div>
+    <h3>Comida día 2</h3>
+    {{ wtf.quick_form(formf2) }}
 </div>
 {% endif %}
 {% endblock %}
