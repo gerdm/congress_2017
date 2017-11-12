@@ -7,11 +7,19 @@
 </div>
 <table class="table">
     <tr>
-        <th>Kit-Alta</th>
-        {% if not user.kit %}
-        <td style="color:#DC143C"> No Entregado</td>
+        <th>Asistencia día 1</th>
+        {% if not user.day1 %}
+        <td style="color:#DC143C">No Registrado</td>
         {% else %}
-        <td style="color:#32CD32">Entregado</td>
+        <td style="color:#32CD32">Registrado</td>
+        {% endif %}
+    </tr>
+    <tr>
+        <th>Asistencia día 2</th>
+        {% if not user.day2 %}
+        <td style="color:#DC143C">No Registrado</td>
+        {% else %}
+        <td style="color:#32CD32">Registrado</td>
         {% endif %}
     </tr>
     <tr>
@@ -44,5 +52,10 @@
     </tr>
 </table>
 
-{{ wtf.quick_form(form) }}
+<div>
+{% if not user.kit1 %}
+    <h3>Registro día 1</h3>
+    {{ wtf.quick_form(formd1) }}
+{% endif %}
+</div>
 {% endblock %}

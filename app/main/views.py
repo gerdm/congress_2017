@@ -44,7 +44,8 @@ def index():
                     school=form.school.data,
                     grade_id=form.grade.data,
                     round_table_id=round_table_id,
-                    kit=False)
+                    day1=False,
+                    day2=False)
 
             # Add User to database
             db.session.add(new_user)
@@ -71,11 +72,15 @@ def user(username_id):
                     "school_grades.id = users.grade_id AND "
                     "users.id = {}".format(username_id))
     user_workshop = list(db.engine.execute(query))[0][0]
-    form = SignUser()
-    if form.validate_on_submit():
-        user.kit = True if user.kit is False else False
-        return render_template("user.html", user=user, form=form, user_workshop=user_workshop)
-    return render_template("user.html", user=user, form=form, user_workshop=user_workshop)
+    formd1 = SignUser()
+    formd2 = SignUser()
+    if formd1.validate_on_submit():
+        user.day1 = True
+    elif formd2.validate_on_submit():
+        user.day2 = True
+
+    return render_template("user.html", user=user, formd1=formd1,
+                           formd2=formd2, user_workshop=user_workshop)
 
 # The 'redirect' method allows the webpage to take you
 # to another page and return a 302 response: redirect

@@ -15,4 +15,4 @@ class MembersForm(FlaskForm):
     submit = SubmitField("Enviar")
 
 class SignUser(FlaskForm):
-    submit = SubmitField("Dar de alta / baja")
+    submit = SubmitField("Registrar")
