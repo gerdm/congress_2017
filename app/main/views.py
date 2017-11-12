@@ -65,13 +65,13 @@ def index():
 @login_required
 def user(username_id):
     user = User.query.filter_by(id=username_id).first()
-    user_id = user.grade_id
     query = ("SELECT workshop "
             "FROM workshops, school_grades, users "
              "WHERE workshops.id = school_grades.workshop_id AND "
                     "school_grades.id = users.grade_id AND "
                     "users.id = {}".format(user_id))
     user_workshop = list(db.engine.execute(query))
+    print(query)
     print("************{}************".format(user_workshop))
     form = SignUser()
     if form.validate_on_submit():
