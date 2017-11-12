@@ -73,12 +73,15 @@ def user(username_id):
                     "users.id = {}".format(username_id))
     user_workshop = list(db.engine.execute(query))[0][0]
     formd1 = SignUser()
-    formd1.day.choices([(user.day1, "Día 1"), (user.day2, "Día 2")])
+    formd1.day.choices([(1, "Día 1"), (2, "Día 2")])
 
     formf1 = GiveFood()
     formf2 = GiveFood()
     if formd1.validate_on_submit():
-        formd1.day.data = True
+        if formd1.day.data == 1:
+            user.day1 = True
+        else:
+            user.day2 = True
 
     if formf1.validate_on_submit():
         user.food1 = True
