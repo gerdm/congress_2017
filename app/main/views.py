@@ -68,12 +68,10 @@ def user(username_id):
     user_id = user.grade_id
     query = ("SELECT workshop "
             "FROM workshops, school_grades, users "
-             "WHERE workshops.id = school_grades.workshop_id AND ",
+             "WHERE workshops.id = school_grades.workshop_id AND "
                     "school_grades.id = users.grade_id AND "
                     "users.id = {}".format(user_id))
-    print(query)
     user_workshop = list(db.engine.execute(query))
-    print(user_workshop)
     form = SignUser()
     if form.validate_on_submit():
         user.kit = True
