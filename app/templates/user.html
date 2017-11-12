@@ -52,7 +52,7 @@
     </tr>
     <tr>
         <th>Comida día 1</th>
-        {% if not user.day1 %}
+        {% if not user.food1 %}
         <td style="color:#DC143C">No Entregada</td>
         {% else %}
         <td style="color:#32CD32">Entregada</td>
@@ -60,7 +60,7 @@
     </tr>
     <tr>
         <th>Comida día 2</th>
-        {% if not user.day2 %}
+        {% if not user.food2 %}
         <td style="color:#DC143C">No Entregado</td>
         {% else %}
         <td style="color:#32CD32">Entregado</td>
@@ -68,19 +68,15 @@
     </tr>
 </table>
 
-{% if not user.kit1 %}
 <div>
+{% if not user.kit1 %}
     <h3>Registro día 1</h3>
     {{ wtf.quick_form(formd1) }}
-</div>
-{% endif %}
-
-{% if not user.kit2 and user.kit1%}
-<div>
+{% elif not user.kit2 %}
     <h3>Registro día 2</h3>
     {{ wtf.quick_form(formd2) }}
-</div>
 {% endif %}
+</div>
 
 
 {% if not user.food1 %}
