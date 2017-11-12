@@ -20,4 +20,6 @@ class SignUser(FlaskForm):
     submit = SubmitField("Registrar")
 
 class GiveFood(FlaskForm):
+    day = SelectField("Día de Comida", choices=[(1, "Día 1"), (2, "Día 2")],
+                      coerce=int, id="select_day")
     submit = SubmitField("Entregar")

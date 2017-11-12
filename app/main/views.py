@@ -72,20 +72,20 @@ def user(username_id):
                     "school_grades.id = users.grade_id AND "
                     "users.id = {}".format(username_id))
     user_workshop = list(db.engine.execute(query))[0][0]
-    formd1 = SignUser()
+    formd = SignUser()
 
-    formf1 = GiveFood()
-    formf2 = GiveFood()
-    if formd1.validate_on_submit():
-        if formd1.day.data == 1:
+    formf = GiveFood()
+    if formd.validate_on_submit():
+        if formd.day.data == 1:
             user.day1 = True
         else:
             user.day2 = True
 
-    if formf1.validate_on_submit():
-        user.food1 = True
-    if formf2.validate_on_submit():
-        user.food2 = True
+    if formf.validate_on_submit():
+        if formf.day.data == 1:
+            user.food1 = True
+        else:
+            user.food2 = True
 
     return render_template("user.html", user=user, formd1=formd1,
                            formf1=formf1, formf2=formf2,
