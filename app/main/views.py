@@ -65,11 +65,18 @@ def index():
 @login_required
 def user(username_id):
     user = User.query.filter_by(id=username_id).first()
+    user_id = user.grade_id
+    query = ("SELECT workshop "
+            "FROM workshops, school_grades, users "
+             "WHERE workshops.id = school_grades.workshop_id AND ",
+                    "school_grades.id = users.grade_id AND "
+                    "users.id = {}".format(user_id))
+    user_workshop = list(db.engine.execute(query))[0][0]
     form = SignUser()
     if form.validate_on_submit():
         user.kit = True
-        return render_template("user.html", user=user, form=form)
-    return render_template("user.html", user=user, form=form)
+        return render_template("user.html", user=user, form=form, user_workshop=user_workshop)
+    return render_template("user.html", user=user, form=form, user_workshop=user_workshop)
 
 # The 'redirect' method allows the webpage to take you
 # to another page and return a 302 response: redirect
