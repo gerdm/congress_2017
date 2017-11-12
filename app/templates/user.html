@@ -47,4 +47,7 @@
 {% if not user.kit %}
     {{ wtf.quick_form(form) }}
 {% endif %}
+{% if not user.kit %}
+    {{ wtf.quick_form(form) }}
+{% endif %}
 {% endblock %}
