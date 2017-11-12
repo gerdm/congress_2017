@@ -87,9 +87,8 @@ def user(username_id):
         else:
             user.food2 = True
 
-    return render_template("user.html", user=user, formd1=formd1,
-                           formf1=formf1, formf2=formf2,
-                           user_workshop=user_workshop)
+    return render_template("user.html", user=user, formd=formd,
+                           formf=formf, user_workshop=user_workshop)
 
 # The 'redirect' method allows the webpage to take you
 # to another page and return a 302 response: redirect
