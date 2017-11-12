@@ -73,7 +73,7 @@ def user(username_id):
                     "users.id = {}".format(username_id))
     user_workshop = list(db.engine.execute(query))[0][0]
     formd1 = SignUser()
-    formd1 = SignUser()
+    formd2 = SignUser()
     formf1 = SignUser()
     formf2 = SignUser()
     if formd1.validate_on_submit():
